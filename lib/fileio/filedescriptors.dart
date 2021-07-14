@@ -13,6 +13,13 @@ import 'package:flutter/material.dart';
     _name = _lastPath.substring(_lastPath.lastIndexOf('/')+1);
     _dateCreated = DateTime.now();
   }
+  static String getFormalDate(DateTime date){
+    String hour = (date.hour == 0 )? "12"
+                  :(date.hour<12)?"0${date.hour}"
+                  :(date.hour>12)?"${date.hour-12}"
+                  :"12";
+    return "${date.day}/${date.month}/${date.year} - $hour:${date.minute} ${date.hour<12?'AM':'PM'}";
+  }
   Map<String,dynamic> toJson(){
     return {
       'path':_path,
