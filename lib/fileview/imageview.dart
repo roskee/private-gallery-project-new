@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:private_gallery/fileio/fileio.dart';
 import 'package:private_gallery/fileview/texticonbutton.dart';
 
 class ImageViewerPage extends StatefulWidget {
+  final String heroTag;
   final PageController controller;
-  ImageViewerPage(this.controller);
+  final FileIO fileIo;
+  ImageViewerPage(this.heroTag, this.controller, this.fileIo);
   _ImageViewerPageState createState() => _ImageViewerPageState();
 }
 
@@ -13,7 +17,7 @@ class _ImageViewerPageState extends State<ImageViewerPage> {
   int currentIndex = 0;
   Widget build(BuildContext context) {
     return Hero(
-        tag: "item",
+        tag: widget.heroTag,
         child: Scaffold(
             appBar: (appBarVisible) ? AppBar(title: Text('file Name')) : null,
             extendBodyBehindAppBar: true,
@@ -23,26 +27,22 @@ class _ImageViewerPageState extends State<ImageViewerPage> {
                     appBarVisible = !appBarVisible;
                   });
                 },
-                onDoubleTap: () {},
                 child: Stack(
                   children: [
                     Center(
                       child: PageView(
-                        controller: widget.controller,
-                        onPageChanged: (index){
-                          currentIndex = index;
-                        },
-                        children: [  // must be from file controller
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png")
-                        ],
-                      ),
+                          controller: widget.controller,
+                          onPageChanged: (index) {
+                            currentIndex = index;
+                          },
+                          children: List.generate(
+                              widget.fileIo.imageCount,
+                              (index) => PhotoView(
+                                  imageProvider: widget.fileIo
+                                      .getImageAt(index)
+                                      .image)) // must be from file controller
+
+                          ),
                     ),
                     Visibility(
                         visible: appBarVisible,

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:private_gallery/fileview/texticonbutton.dart';
 
 class VideoViewerPage extends StatefulWidget {
+  final String heroTag;
   final PageController controller;
-  VideoViewerPage(this.controller);
+  VideoViewerPage(this.heroTag,this.controller);
   _VideoViewerPageState createState() => _VideoViewerPageState();
 }
 
@@ -13,7 +14,7 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
   int currentIndex = 0;
   Widget build(BuildContext context) {
     return Hero(
-        tag: "item",
+        tag: widget.heroTag,
         child: Scaffold(
             appBar: (appBarVisible) ? AppBar(title: Text('file Name')) : null,
             extendBodyBehindAppBar: true,
