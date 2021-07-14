@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:private_gallery/fileio/fileio.dart';
 import 'package:private_gallery/fileview/videoview.dart';
 
-import 'home.dart';
-
 class HomeVideoList extends StatelessWidget {
   final FileIO fileIo;
   HomeVideoList(this.fileIo);
@@ -16,7 +14,7 @@ class HomeVideoList extends StatelessWidget {
           child: Card(
             child: InkWell(
               onTap: (){
-                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> VideoViewerPage("video_item$index",PageController(initialPage: index))));
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> VideoViewerPage("video_item$index",fileIo.getVideoAt(index))));
               },
               child: fileIo.getVideoAt(index).thumb
             ),

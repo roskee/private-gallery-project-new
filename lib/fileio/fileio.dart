@@ -15,11 +15,11 @@ FileIO(){
     Image.asset('assets/images/private_gallery_icon.png'),
   ];
   _videos =[
-    MyVideo("hi","hi","hi"),
-    MyVideo("hi","hi","hi"),
-    MyVideo("hi","hi","hi"),
-    MyVideo("hi","hi","hi"),
-    MyVideo("hi","hi","hi")
+    MyVideo("assets/videos/test3.mp4","hi","hi"),
+    MyVideo("assets/videos/test.mp4","hi","hi"),
+    MyVideo("assets/videos/testtwo.mp4","hi","hi"),
+    MyVideo("assets/videos/test.mp4","hi","hi"),
+    MyVideo("assets/videos/test.mp4","hi","hi"),
   ];
   _files =[
     MyFile("hi/file.name", "hi", "hi"),

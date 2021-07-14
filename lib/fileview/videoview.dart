@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:private_gallery/fileio/filedescriptors.dart';
 import 'package:private_gallery/fileview/texticonbutton.dart';
+import 'package:private_gallery/fileview/videoplayer.dart';
 
 class VideoViewerPage extends StatefulWidget {
   final String heroTag;
-  final PageController controller;
-  VideoViewerPage(this.heroTag,this.controller);
+  final MyVideo video;
+  VideoViewerPage(this.heroTag,this.video);
   _VideoViewerPageState createState() => _VideoViewerPageState();
 }
 
@@ -28,22 +30,23 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                 child: Stack(
                   children: [
                     Center(
-                      child: PageView(
-                        controller: widget.controller,
-                        onPageChanged: (index){
-                          currentIndex = index;
-                        },
-                        children: [  // must be from file controller
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png"),
-                          Image.asset("assets/images/private_gallery_icon.png")
-                        ],
-                      ),
+                      child: VideoPlayerPage(widget.video)
+                      // PageView(
+                      //   controller: widget.controller,
+                      //   onPageChanged: (index){
+                      //     currentIndex = index;
+                      //   },
+                      //   children: [  // must be from file controller
+                      //     Image.asset("assets/images/private_gallery_icon.png"),
+                      //     Image.asset("assets/images/private_gallery_icon.png"),
+                      //     Image.asset("assets/images/private_gallery_icon.png"),
+                      //     Image.asset("assets/images/private_gallery_icon.png"),
+                      //     Image.asset("assets/images/private_gallery_icon.png"),
+                      //     Image.asset("assets/images/private_gallery_icon.png"),
+                      //     Image.asset("assets/images/private_gallery_icon.png"),
+                      //     Image.asset("assets/images/private_gallery_icon.png")
+                      //   ],
+                      // ),
                     ),
                     Visibility(
                         visible: appBarVisible,
