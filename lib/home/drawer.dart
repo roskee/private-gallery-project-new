@@ -6,7 +6,8 @@ import 'package:private_gallery/settings/settings.dart';
 
 class HomeDrawer extends StatelessWidget {
   final FileIO fileIo;
-  HomeDrawer(this.fileIo);
+  final Function settingsCallback;
+  HomeDrawer(this.fileIo, this.settingsCallback);
   Widget build(BuildContext context) {
     return Drawer(
         child: Column(
@@ -22,12 +23,16 @@ class HomeDrawer extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.settings),
                   title: Text("Settings"),
-                  onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(builder: (context) => SettingsPage(fileIo))),
+                  onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                      builder: (context) => SettingsPage(fileIo, () {
+                            settingsCallback();
+                          }))),
                 ),
                 ListTile(
                   leading: Icon(Icons.info),
                   title: Text('About App'),
-                  onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(builder:(context)=> AboutPage())),
+                  onTap: () => Navigator.of(context).push(
+                      new MaterialPageRoute(builder: (context) => AboutPage())),
                 )
               ],
             ))

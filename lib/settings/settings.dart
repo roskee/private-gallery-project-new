@@ -1,16 +1,20 @@
-
 import 'package:flutter/material.dart';
 import 'package:private_gallery/fileio/fileio.dart';
 
 class SettingsPage extends StatefulWidget {
   final FileIO fileIo;
-  SettingsPage(this.fileIo);
-  _SettingsPageState createState() => _SettingsPageState();
+  final Function callback;
+  String themevalue;
+  SettingsPage(this.fileIo, this.callback) {
+    themevalue = fileIo.preferences.getString(FileIO.THEME);
+  }
+  _SettingsPageState createState() => _SettingsPageState(themevalue);
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  String themevalue = 'system';
+  String themevalue;
   bool useFingerprint = false;
+  _SettingsPageState(this.themevalue);
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -26,8 +30,9 @@ class _SettingsPageState extends State<SettingsPage> {
               onChanged: (value) {
                 setState(() {
                   themevalue = value;
-                  widget.fileIo.preferences.setString(FileIO.THEME, value);
                 });
+                widget.fileIo.preferences.setString(FileIO.THEME, value);
+                widget.callback();
               },
               items: <DropdownMenuItem>[
                 DropdownMenuItem(
@@ -58,8 +63,6 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () {
               setState(() {
                 useFingerprint = !useFingerprint;
-                widget.fileIo.preferences
-                    .setBool(FileIO.USE_FINGERPRINT, useFingerprint);
               });
             },
             trailing: Switch(
@@ -68,6 +71,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 setState(() {
                   useFingerprint = value;
                 });
+                widget.fileIo.preferences
+                    .setBool(FileIO.USE_FINGERPRINT, useFingerprint);
+                widget.callback();
               },
             ),
           )
