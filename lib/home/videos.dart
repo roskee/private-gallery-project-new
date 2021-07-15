@@ -8,7 +8,7 @@ class HomeVideoList extends StatelessWidget {
   HomeVideoList(this.fileIo);
   Widget build(BuildContext context) {
     return GridView.count(
-      crossAxisCount: 3,
+      crossAxisCount: 4,
       children: List.generate(fileIo.videoCount, (index) =>  Hero(
           tag: "video_item$index",
           child: Card(

@@ -9,6 +9,7 @@ class HomeNavigationBar extends StatelessWidget{
       child: TabBar(
       controller: controller,
       labelColor: Colors.blue,
+      
       tabs: [
         Tab(
           icon: Icon(Icons.image),

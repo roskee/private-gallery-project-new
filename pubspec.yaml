@@ -31,6 +31,7 @@ dependencies:
   photo_view:
   video_player: ^2.1.10
   open_file: ^3.2.1
+  filesystem_picker:
 dev_dependencies:
   flutter_test:
     sdk: flutter

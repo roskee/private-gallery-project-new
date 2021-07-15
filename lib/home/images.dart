@@ -8,7 +8,7 @@ class HomeImageList extends StatelessWidget {
   HomeImageList(this.fileIo);
   Widget build(BuildContext context) {
     return GridView.count(
-      crossAxisCount: 3,
+      crossAxisCount: 4,
       children: List.generate(fileIo.imageCount, (index) => Hero(
           tag: "image_item$index",
           child: Card(
