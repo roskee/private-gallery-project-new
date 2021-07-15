@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:private_gallery/about/about.dart';
+import 'package:private_gallery/fileio/fileio.dart';
+import 'package:private_gallery/settings/settings.dart';
 
 class HomeDrawer extends StatelessWidget {
+  final FileIO fileIo;
+  HomeDrawer(this.fileIo);
   Widget build(BuildContext context) {
     return Drawer(
         child: Column(
@@ -17,10 +22,12 @@ class HomeDrawer extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.settings),
                   title: Text("Settings"),
+                  onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(builder: (context) => SettingsPage(fileIo))),
                 ),
                 ListTile(
                   leading: Icon(Icons.info),
                   title: Text('About App'),
+                  onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(builder:(context)=> AboutPage())),
                 )
               ],
             ))

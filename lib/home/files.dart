@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:open_file/open_file.dart';
 import 'package:private_gallery/fileio/filedescriptors.dart';
 import 'package:private_gallery/fileio/fileio.dart';
 

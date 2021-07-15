@@ -41,6 +41,7 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
     return WillPopScope(
         onWillPop: () async {
           tempController.pause();
+
           return true;
         },
         child: Hero(
@@ -120,7 +121,8 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                                                 tempController.value.position)),
                                             Expanded(
                                                 child: VideoProgressIndicator(
-                                              tempController,
+                                                  tempController,
+                                                  padding: EdgeInsets.symmetric(vertical: 5.0),
                                               allowScrubbing: true,
                                             )),
                                             Text(parseDuration(
@@ -158,5 +160,9 @@ class _VideoViewerPageState extends State<VideoViewerPage> {
                             ))
                       ],
                     )))));
+  }
+  void dispose(){
+    super.dispose();
+    tempController.dispose();
   }
 }

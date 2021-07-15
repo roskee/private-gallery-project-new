@@ -32,6 +32,8 @@ dependencies:
   video_player: ^2.1.10
   open_file: ^3.2.1
   filesystem_picker:
+  shared_preferences: ^2.0.6
+  path_provider: ^2.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -49,6 +51,7 @@ flutter:
 
   assets:
      - assets/images/private_gallery_icon.png
+     - assets/images/fingerprint.png
      - assets/videos/test.mp4
      - assets/videos/testtwo.mp4
      - assets/videos/test3.mp4
