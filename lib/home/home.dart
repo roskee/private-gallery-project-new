@@ -6,7 +6,7 @@ import 'package:private_gallery/home/expandablefloatingbutton/expandablefab.dart
 import 'package:private_gallery/home/navigationbar.dart';
 import 'package:private_gallery/home/splash.dart';
 import 'package:private_gallery/home/tabview.dart';
-
+import 'package:private_gallery/home/walkthrough.dart';
 import 'auth.dart';
 import 'expandablefloatingbutton/actionbutton.dart';
 
@@ -30,41 +30,50 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return (fileIo == null)
         ? SplashScreen()
-        : (!isAuthorized)
-            ? PasswordPage(fileIo.preferences.getString(FileIO.PASSWORD),fileIo.preferences.getBool(FileIO.USE_FINGERPRINT), () {
+        : (fileIo.preferences.getBool(FileIO.NOOBIE))
+            ? WalkThrough((value) {
                 setState(() {
+                  fileIo.preferences.setBool(FileIO.NOOBIE, false);
+                  fileIo.preferences.setString(FileIO.PASSWORD, value);
                   isAuthorized = true;
                 });
               })
-            : Scaffold(
-                appBar: AppBar(
-                  title: Text("Private Gallery"),
-                ),
-                floatingActionButton: ExpandableFab(
-                  distance: 100,
-                  children: [
-                    ActionButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.image),
-                      label: 'Image',
+            : (!isAuthorized)
+                ? PasswordPage(fileIo.preferences.getString(FileIO.PASSWORD),
+                    fileIo.preferences.getBool(FileIO.USE_FINGERPRINT), () {
+                    setState(() {
+                      isAuthorized = true;
+                    });
+                  })
+                : Scaffold(
+                    appBar: AppBar(
+                      title: Text("Private Gallery"),
                     ),
-                    ActionButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.video_label),
-                      label: 'Video',
+                    floatingActionButton: ExpandableFab(
+                      distance: 100,
+                      children: [
+                        ActionButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.image),
+                          label: 'Image',
+                        ),
+                        ActionButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.video_label),
+                          label: 'Video',
+                        ),
+                        ActionButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.file_present),
+                          label: 'Other',
+                        )
+                      ],
                     ),
-                    ActionButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.file_present),
-                      label: 'Other',
-                    )
-                  ],
-                ),
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.miniEndFloat,
-                drawer: HomeDrawer(fileIo),
-                body: HomeTabView(fileIo, controller),
-                bottomNavigationBar: HomeNavigationBar(controller),
-              );
+                    floatingActionButtonLocation:
+                        FloatingActionButtonLocation.miniEndFloat,
+                    drawer: HomeDrawer(fileIo),
+                    body: HomeTabView(fileIo, controller),
+                    bottomNavigationBar: HomeNavigationBar(controller),
+                  );
   }
 }
