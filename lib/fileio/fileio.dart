@@ -9,6 +9,7 @@ class FileIO {
   static const String THEME = 'theme';
   static const String USE_FINGERPRINT = 'usefingerprint';
   static const String PASSWORD = 'password';
+  static const String LOCKDELAY = 'lockdelay';
   static const String NOOBIE = 'noobie';
 
   static FileIO _fileIo;

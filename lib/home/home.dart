@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:private_gallery/fileio/fileio.dart';
@@ -15,18 +17,49 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with TickerProviderStateMixin {
+class _HomeState extends State<Home>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   TabController controller;
   FileIO fileIo;
   bool isAuthorized = false;
+  Timer timer;
   ThemeMode themeMode = ThemeMode.system;
+  int lockdelay;
   void initState() {
     super.initState();
     controller = new TabController(length: 3, vsync: this);
     FileIO.getFutureInstance().then((value) => setState(() {
           fileIo = value;
           themeMode = updateTheme();
+          setLockDelay();
+          WidgetsBinding.instance.addObserver(this);
         }));
+  }
+
+  void setLockDelay() {
+    int temp;
+    switch (fileIo.preferences.getString(FileIO.LOCKDELAY)) {
+      case '0min':
+        temp = 0;
+        break;
+      case '5sec':
+        temp = 5;
+        break;
+      case '15sec':
+        temp = 15;
+        break;
+      case '1min':
+        temp = 60;
+        break;
+      case '5min':
+        temp = 300;
+        break;
+      default:
+        temp = -1;
+    }
+    setState(() {
+      lockdelay = temp;
+    });
   }
 
   ThemeMode updateTheme() {
@@ -93,10 +126,39 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                         drawer: HomeDrawer(fileIo, () {
                           setState(() {
                             themeMode = updateTheme();
+                            setLockDelay();
                           });
                         }),
                         body: HomeTabView(fileIo, controller),
                         bottomNavigationBar: HomeNavigationBar(controller),
                       ));
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      registerIntervalLock(lockdelay);
+    } else if (state == AppLifecycleState.resumed) {
+      cancelTimer();
+    }
+  }
+
+  void registerIntervalLock(int seconds) {
+    if (seconds == -1) return;
+    if (seconds == 0)
+      setState(() {
+        isAuthorized = false;
+      });
+    else
+      timer = Timer(Duration(seconds: seconds), () {
+        setState(() {
+          isAuthorized = false;
+        });
+      });
+  }
+
+  void cancelTimer() {
+    if (timer != null) if (timer.isActive) timer.cancel();
   }
 }
