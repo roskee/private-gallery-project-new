@@ -129,7 +129,18 @@ class _SettingsPageState extends State<SettingsPage> {
                               )),
                               ElevatedButton(onPressed: (){
                                 if(formState.currentState.validate()){
+                                  widget.fileIo.preferences.setString(FileIO.PASSWORD, primaryController.value.text);
                                   Navigator.of(context).pop();
+                                  setState(() {
+                                                                      lastPassword = primaryController.value.text;
+                                                                      primaryController.clear();
+                                                                      lastController.clear();
+                                                                      firstController.clear();
+                                                                    });
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    duration: Duration(seconds: 1),
+                                    content: Text('Password changed!'),
+                                  ));
                                 }
 
                               }, child: Text('Change Password'))
