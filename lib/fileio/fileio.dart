@@ -18,6 +18,7 @@ class FileIO {
   List<MyFile> _files = [];
   SharedPreferences _preferences;
   Directory _directory;
+  Directory _externalStorage;
   FileIO._();
 
   static Future<FileIO> getFutureInstance() async {
@@ -25,6 +26,7 @@ class FileIO {
     _fileIo = FileIO._();
     _fileIo._preferences = await SharedPreferences.getInstance();
     _fileIo._directory = await getApplicationDocumentsDirectory();
+    _fileIo._externalStorage = Directory('/');
     _fileIo._initFiles();
     return _fileIo;
   }
@@ -75,6 +77,7 @@ class FileIO {
   void _commitChanges() {}
 
   SharedPreferences get preferences => _preferences;
+  Directory get externalStorage => _externalStorage;
 
   int get imageCount => _images.length;
   List<Image> get images => _images;

@@ -21,7 +21,7 @@ class HomeDrawer extends StatelessWidget {
             child: ListView(
               children: [
                 ListTile(
-                  leading: Icon(Icons.settings),
+                  leading: Icon(Icons.settings,color: Theme.of(context).accentColor,),
                   title: Text("Settings"),
                   onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                       builder: (context) => SettingsPage(fileIo, () {
@@ -29,7 +29,7 @@ class HomeDrawer extends StatelessWidget {
                           }))),
                 ),
                 ListTile(
-                  leading: Icon(Icons.info),
+                  leading: Icon(Icons.info,color: Theme.of(context).accentColor,),
                   title: Text('About App'),
                   onTap: () => Navigator.of(context).push(
                       new MaterialPageRoute(builder: (context) => AboutPage())),

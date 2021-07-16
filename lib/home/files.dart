@@ -29,22 +29,31 @@ class HomeFileList extends StatelessWidget {
                                       onPressed: () {
                                         // OpenFile);
                                       },
-                                      label: Text('Open'),
-                                      icon: Icon(Icons.open_with)),
+                                      onLongPress: (){},
+                                      label: Text('Open',style: TextStyle(
+                                        color: Theme.of(context).accentColor
+                                      ),),
+                                      icon: Icon(Icons.open_with,color: Theme.of(context).accentColor,)),
                                   TextButton.icon(
                                     onPressed: () {},
-                                    label: Text('Restore'),
-                                    icon: Icon(Icons.restore),
+                                    onLongPress: (){},
+                                    label: Text('Restore',style: TextStyle(
+                                        color: Theme.of(context).accentColor
+                                      )),
+                                    icon: Icon(Icons.restore,color: Theme.of(context).accentColor),
                                   ),
                                   TextButton.icon(
                                       onPressed: () {},
-                                      label: Text('Delete'),
-                                      icon: Icon(Icons.delete))
+                                      onLongPress: (){},
+                                      label: Text('Delete',style: TextStyle(
+                                        color: Theme.of(context).accentColor
+                                      )),
+                                      icon: Icon(Icons.delete,color: Theme.of(context).accentColor))
                                 ],
                               )
                             ]))));
               },
-              leading: Icon(Icons.file_present),
+              leading: Icon(Icons.storage,color: Theme.of(context).accentColor),
               title: Text(fileIo.getFileAt(index).name),
               subtitle: Text(
                   MyFile.getFormalDate(fileIo.getFileAt(index).dateCreated)),

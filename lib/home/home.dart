@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:private_gallery/fileio/fileio.dart';
 import 'package:private_gallery/home/drawer.dart';
 import 'package:private_gallery/home/expandablefloatingbutton/expandablefab.dart';
@@ -24,9 +27,11 @@ class _HomeState extends State<Home>
   bool isAuthorized = false;
   Timer timer;
   ThemeMode themeMode = ThemeMode.system;
+  GlobalKey<ScaffoldState> _scaffoldState;
   int lockdelay;
   void initState() {
     super.initState();
+    _scaffoldState = GlobalKey<ScaffoldState>();
     controller = new TabController(length: 3, vsync: this);
     FileIO.getFutureInstance().then((value) => setState(() {
           fileIo = value;
@@ -76,62 +81,68 @@ class _HomeState extends State<Home>
   }
 
   Widget build(BuildContext context) {
-    return MaterialApp(
-        themeMode: themeMode,
-        darkTheme: ThemeData.dark(),
-        home: (fileIo == null)
-            ? SplashScreen()
-            : (fileIo.preferences.getBool(FileIO.NOOBIE))
-                ? WalkThrough((value) {
-                    setState(() {
-                      fileIo.preferences.setBool(FileIO.NOOBIE, false);
-                      fileIo.preferences.setString(FileIO.PASSWORD, value);
-                      isAuthorized = true;
-                    });
-                  })
-                : (!isAuthorized)
-                    ? PasswordPage(
+    return (fileIo == null)
+        ? SplashScreen()
+        : (fileIo.preferences.getBool(FileIO.NOOBIE))
+            ? WalkThrough((value) {
+                setState(() {
+                  fileIo.preferences.setBool(FileIO.NOOBIE, false);
+                  fileIo.preferences.setString(FileIO.PASSWORD, value);
+                  isAuthorized = true;
+                });
+              })
+            : (!isAuthorized)
+                ? MaterialApp(
+                    themeMode: themeMode,
+                    darkTheme: ThemeData.dark(),
+                    home: PasswordPage(
                         fileIo.preferences.getString(FileIO.PASSWORD),
                         fileIo.preferences.getBool(FileIO.USE_FINGERPRINT), () {
+                      setState(() {
+                        isAuthorized = true;
+                      });
+                    }))
+                : MaterialApp(
+                    themeMode: themeMode,
+                    darkTheme: ThemeData.dark(),
+                    home: Scaffold(
+                      key: _scaffoldState,
+                      appBar: AppBar(
+                        title: Text("Private Gallery"),
+                      ),
+                      floatingActionButton: ExpandableFab(
+                        distance: 100,
+                        children: [
+                          ActionButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.image),
+                            label: 'Image',
+                          ),
+                          ActionButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.video_label),
+                            label: 'Video',
+                          ),
+                          ActionButton(
+                            onPressed: () {
+                              
+                            },
+                            icon: Icon(Icons.file_present),
+                            label: 'Other',
+                          )
+                        ],
+                      ),
+                      floatingActionButtonLocation:
+                          FloatingActionButtonLocation.miniEndFloat,
+                      drawer: HomeDrawer(fileIo, () {
                         setState(() {
-                          isAuthorized = true;
+                          themeMode = updateTheme();
+                          setLockDelay();
                         });
-                      })
-                    : Scaffold(
-                        appBar: AppBar(
-                          title: Text("Private Gallery"),
-                        ),
-                        floatingActionButton: ExpandableFab(
-                          distance: 100,
-                          children: [
-                            ActionButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.image),
-                              label: 'Image',
-                            ),
-                            ActionButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.video_label),
-                              label: 'Video',
-                            ),
-                            ActionButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.file_present),
-                              label: 'Other',
-                            )
-                          ],
-                        ),
-                        floatingActionButtonLocation:
-                            FloatingActionButtonLocation.miniEndFloat,
-                        drawer: HomeDrawer(fileIo, () {
-                          setState(() {
-                            themeMode = updateTheme();
-                            setLockDelay();
-                          });
-                        }),
-                        body: HomeTabView(fileIo, controller),
-                        bottomNavigationBar: HomeNavigationBar(controller),
-                      ));
+                      }),
+                      body: HomeTabView(fileIo, controller),
+                      bottomNavigationBar: HomeNavigationBar(controller),
+                    ));
   }
 
   @override
@@ -140,6 +151,7 @@ class _HomeState extends State<Home>
     if (state == AppLifecycleState.paused) {
       registerIntervalLock(lockdelay);
     } else if (state == AppLifecycleState.resumed) {
+      print('hi');
       cancelTimer();
     }
   }

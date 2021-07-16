@@ -12,6 +12,7 @@ class HomeImageList extends StatelessWidget {
       children: List.generate(fileIo.imageCount, (index) => Hero(
           tag: "image_item$index",
           child: Card(
+            elevation: 10,
             child: InkWell(
               onTap: (){
                 Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> ImageViewerPage("image_item$index",PageController(initialPage: index),fileIo)));

@@ -12,6 +12,7 @@ class HomeVideoList extends StatelessWidget {
       children: List.generate(fileIo.videoCount, (index) =>  Hero(
           tag: "video_item$index",
           child: Card(
+            elevation: 10,
             child: InkWell(
               onTap: (){
                 Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> VideoViewerPage("video_item$index",fileIo.getVideoAt(index))));

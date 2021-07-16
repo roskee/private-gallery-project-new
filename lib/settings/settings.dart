@@ -37,7 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         children: [
           ListTile(
-            leading: Icon(Icons.style),
+            leading: Icon(Icons.style,color: Theme.of(context).accentColor,),
             title: Text('Theme'),
             trailing: DropdownButton(
               value: themevalue,
@@ -65,7 +65,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.security),
+            leading: Icon(Icons.security,color: Theme.of(context).accentColor,),
             title: Text('Change Password'),
             onTap: () {
               showModalBottomSheet(
@@ -163,7 +163,7 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.fingerprint),
+            leading: Icon(Icons.fingerprint,color: Theme.of(context).accentColor),
             title: Text('Use fingerprint'),
             onTap: () {
               setState(() {
@@ -183,7 +183,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.lock),
+            leading: Icon(Icons.lock,color:Theme.of(context).accentColor),
             title: Text('Auto lock delay'),
             trailing: DropdownButton(
               value: lockvalue,

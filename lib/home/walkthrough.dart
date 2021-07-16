@@ -22,7 +22,8 @@ class _WalkThroughState extends State<WalkThrough> {
     formState = GlobalKey<FormState>();
   }
   Widget build(BuildContext context) {
-    return Material(
+    return MaterialApp(
+        home: Material(
       child: PageView(
         controller: controller,
         children: [
@@ -102,6 +103,6 @@ class _WalkThroughState extends State<WalkThrough> {
                       ))))),
         ],
       ),
-    );
+    ));
   }
 }

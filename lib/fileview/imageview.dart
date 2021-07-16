@@ -37,7 +37,11 @@ class _ImageViewerPageState extends State<ImageViewerPage> {
                           },
                           children: List.generate(
                               widget.fileIo.imageCount,
-                              (index) => PhotoView(
+                              (index) => 
+                                PhotoView(
+                                  backgroundDecoration: BoxDecoration(
+                                    color: Theme.of(context).backgroundColor
+                                  ),
                                   imageProvider: widget.fileIo
                                       .getImageAt(index)
                                       .image)) // must be from file controller

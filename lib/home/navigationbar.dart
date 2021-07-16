@@ -8,8 +8,7 @@ class HomeNavigationBar extends StatelessWidget{
     return Material(
       child: TabBar(
       controller: controller,
-      labelColor: Colors.blue,
-      
+      labelColor: Theme.of(context).accentColor,
       tabs: [
         Tab(
           icon: Icon(Icons.image),
