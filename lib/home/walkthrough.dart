@@ -2,18 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class WalkThrough extends StatelessWidget {
+class WalkThrough extends StatefulWidget {
+  final Function finishCallback;
+  WalkThrough(this.finishCallback);
+  _WalkThroughState createState() => _WalkThroughState();
+}
+
+class _WalkThroughState extends State<WalkThrough> {
   PageController controller;
   FocusNode primaryPin;
   FocusNode lastPin;
   TextEditingController primaryController;
   TextEditingController lastController;
   GlobalKey<FormState> formState;
-  final Function finishCallback;
-  WalkThrough(this.finishCallback) {
+  _WalkThroughState() {
     controller = PageController();
-    primaryPin = FocusNode(canRequestFocus: true);
-    lastPin = FocusNode(canRequestFocus: true);
     primaryController = TextEditingController();
     lastController = TextEditingController();
     formState = GlobalKey<FormState>();
@@ -58,11 +61,10 @@ class WalkThrough extends StatelessWidget {
                                 child: TextFormField(
                                   controller: primaryController,
                                   validator: (value) {
-                                    if (value.length != 4)
-                                      return 'Your pin must be 4 digits long';
-                                    return null;
+                                    return (value.length != 4)
+                                        ? 'Your pin must be 4 digits long'
+                                        : null;
                                   },
-                                  focusNode: primaryPin,
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly
@@ -75,13 +77,13 @@ class WalkThrough extends StatelessWidget {
                                 child: TextFormField(
                                   controller: lastController,
                                   validator: (value) {
-                                    if (value.length != 4)
-                                      return 'Your pin must be 4 digits long';
-                                    if (value != primaryController.value.text)
-                                      return 'Your pin doesn\'t match';
-                                    return null;
+                                    return (value.length != 4)
+                                        ? 'Your pin must be 4 digits long'
+                                        : (value !=
+                                                primaryController.value.text)
+                                            ? 'Your pin doesn\'t match'
+                                            : null;
                                   },
-                                  focusNode: lastPin,
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly
@@ -91,7 +93,7 @@ class WalkThrough extends StatelessWidget {
                             ElevatedButton(
                                 onPressed: () {
                                   if (formState.currentState.validate())
-                                    finishCallback(
+                                    widget.finishCallback(
                                         primaryController.value.text);
                                 },
                                 child: Text('Finish'))
